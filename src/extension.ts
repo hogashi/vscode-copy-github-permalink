@@ -1,26 +1,15 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { GitExtension } from './git';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+const EXTENSION_NAME = 'copy-github-permalink';
+
 export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log('Congratulations, your extension "myfff" is now active!');
-
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand('myfff.ftoMyFf', () => {
-    // The code you place here will be executed every time your command is executed
-
+  let disposable = vscode.commands.registerCommand(`${EXTENSION_NAME}.activate`, () => {
     const _gitExtension = vscode.extensions.getExtension<GitExtension>(
       'vscode.git',
     );
     if (!_gitExtension) {
-      vscode.window.showInformationMessage('myfff cant get git extension');
+      vscode.window.showInformationMessage(`${EXTENSION_NAME} can't get git extension`);
       return;
     }
     const gitExtension = _gitExtension!.exports;
@@ -54,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
       const url = `${httpsUrl}/tree/${commit.hash}${filePath}`;
       vscode.env.clipboard.writeText(url);
       vscode.window.showInformationMessage(
-        `myfff: copied "${url}"`,
+        `${EXTENSION_NAME}: "${url}" copied`,
       );
     });
   });
@@ -63,4 +52,6 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  // no-op
+}
