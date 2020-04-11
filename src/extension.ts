@@ -44,6 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.env.clipboard.writeText(url);
       vscode.window.showInformationMessage(
         `${EXTENSION_NAME}: "${url}" copied`,
+        { modal: false }
       );
     });
   });
