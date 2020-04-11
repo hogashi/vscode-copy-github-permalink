@@ -2,7 +2,6 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { GitExtension } from './git';
-import * as path from 'path';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -34,8 +33,10 @@ export function activate(context: vscode.ExtensionContext) {
     let filePath = '';
     if (activeTextEditor) {
       const absolutePath = activeTextEditor.document.fileName;
-
-      filePath = '/' + vscode.workspace.asRelativePath(absolutePath, true).split(/[\/\\]/).slice(1).join('/');
+      const upperPath = repository.rootUri.fsPath;
+      const indexOf = absolutePath.indexOf(upperPath);
+      const relativePath = absolutePath.slice(indexOf + upperPath.length);
+      filePath = relativePath;
 
       const selection = activeTextEditor.selection;
       if (selection) {
