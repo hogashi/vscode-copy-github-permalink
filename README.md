@@ -1,4 +1,4 @@
-# vscode-copy-github-permalink README
+# vscode-copy-github-permalink
 
 Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
 
