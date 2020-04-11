@@ -18,7 +18,33 @@ export function activate(context: vscode.ExtensionContext) {
       }
       const gitExtension = _gitExtension!.exports;
       const git = gitExtension.getAPI(1);
-      const repository = git.repositories[0];
+
+      // select main repo, not submodules
+      // - collect submodules
+      // - non-submodule repo should be main repo
+      const submoduleUrls: { [key: string]: true } = {};
+      git.repositories.forEach((repo) =>
+        repo.state.submodules.forEach((subm) => {
+          submoduleUrls[subm.url] = true;
+        }),
+      );
+
+      const repository = git.repositories.find((repo) => {
+        const remote = repo.state.remotes.find(
+          (remo) => remo.name === 'origin',
+        );
+        if (!(remote && remote.fetchUrl)) {
+          return false;
+        }
+        return submoduleUrls[remote.fetchUrl] !== true;
+      });
+      if (!repository) {
+        vscode.window.showInformationMessage(
+          `${EXTENSION_NAME} can't get git repo`,
+        );
+        return;
+      }
+
       const fetchUrl = repository.state.remotes[0].fetchUrl;
       const httpsUrl = fetchUrl!.replace(
         /^(?:(?:(?:ssh|git):\/\/|)(?:git@|)([^:\/]+)[:\/](.+?)(?:\.git|)|(?:https:\/\/|)(?:git@|)(.*?)(.)(?:\.git|))$/,
