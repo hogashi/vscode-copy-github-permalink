@@ -50,7 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
         const url = `${httpsUrl}/tree/${commit.hash}${filePath}`;
         vscode.env.clipboard.writeText(url);
         vscode.window.showInformationMessage(
-          `${EXTENSION_NAME}: "${url}" copied`,
+          `"${url}" copied`,
           { modal: false },
         );
       });
