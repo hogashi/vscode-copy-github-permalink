@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { GitExtension } from './git';
+import * as path from 'path';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -26,13 +27,22 @@ export function activate(context: vscode.ExtensionContext) {
     const gitExtension = _gitExtension!.exports;
     const git = gitExtension.getAPI(1);
     const repository = git.repositories[0];
-    // repository.getCommit('HEAD').then((commit) => {
-      // Display a message box to the user
+    const fetchUrl = repository.state.remotes[0].fetchUrl;
+    const httpsUrl = fetchUrl!.replace(/^(?:ssh:\/\/(?:git@|)([^:\/]+)[:\/](.+?)(?:\.git|)|(?:(?:https|git):\/\/|)(?:git@|)(.*?)(.)(?:\.git|))$/, 'https://$1$2');
+
+    repository.getCommit('HEAD').then((commit) => {
+      const activeTextEditor = vscode.window.activeTextEditor;
+      let filePath = '';
+      if (activeTextEditor) {
+        const absolutePath = activeTextEditor.document.fileName;
+        filePath = '/' + vscode.workspace.asRelativePath(absolutePath, true).split(/[\/\\]/).slice(1).join('/');
+      };
+      const url = `${httpsUrl}/tree/${commit.hash}${filePath}`;
       vscode.window.showInformationMessage(
-        // `myfff: ${commit.hash} ${repository.rootUri} ${repository.state.remotes[0].fetchUrl}`,
-        `aaa ${repository.toString()} aaa`
+        `myfff: ${url}` + ' ' + filePath,
       );
-    // });
+      vscode.env.clipboard.writeText(url);
+    });
   });
 
   context.subscriptions.push(disposable);
