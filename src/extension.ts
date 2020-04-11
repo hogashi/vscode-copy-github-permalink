@@ -22,26 +22,39 @@ export function activate(context: vscode.ExtensionContext) {
     );
     if (!_gitExtension) {
       vscode.window.showInformationMessage('myfff cant get git extension');
-      // return;
+      return;
     }
     const gitExtension = _gitExtension!.exports;
     const git = gitExtension.getAPI(1);
     const repository = git.repositories[0];
     const fetchUrl = repository.state.remotes[0].fetchUrl;
-    const httpsUrl = fetchUrl!.replace(/^(?:ssh:\/\/(?:git@|)([^:\/]+)[:\/](.+?)(?:\.git|)|(?:(?:https|git):\/\/|)(?:git@|)(.*?)(.)(?:\.git|))$/, 'https://$1$2');
+    const httpsUrl = fetchUrl!.replace(/^(?:(?:(?:ssh|git):\/\/|)(?:git@|)([^:\/]+)[:\/](.+?)(?:\.git|)|(?:https:\/\/|)(?:git@|)(.*?)(.)(?:\.git|))$/, 'https://$1/$2');
+
+    const activeTextEditor = vscode.window.activeTextEditor;
+    let filePath = '';
+    if (activeTextEditor) {
+      const absolutePath = activeTextEditor.document.fileName;
+
+      filePath = '/' + vscode.workspace.asRelativePath(absolutePath, true).split(/[\/\\]/).slice(1).join('/');
+
+      const selection = activeTextEditor.selection;
+      if (selection) {
+        const start = selection.start.line + 1;
+        const end = selection.end.line + 1;
+        filePath += `#L${start}`;
+
+        if (start !== end) {
+          filePath += `-L${end}`;
+        }
+      }
+    };
 
     repository.getCommit('HEAD').then((commit) => {
-      const activeTextEditor = vscode.window.activeTextEditor;
-      let filePath = '';
-      if (activeTextEditor) {
-        const absolutePath = activeTextEditor.document.fileName;
-        filePath = '/' + vscode.workspace.asRelativePath(absolutePath, true).split(/[\/\\]/).slice(1).join('/');
-      };
       const url = `${httpsUrl}/tree/${commit.hash}${filePath}`;
-      vscode.window.showInformationMessage(
-        `myfff: ${url}` + ' ' + filePath,
-      );
       vscode.env.clipboard.writeText(url);
+      vscode.window.showInformationMessage(
+        `myfff: copied "${url}"`,
+      );
     });
   });
 
