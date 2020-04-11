@@ -25,6 +25,10 @@ Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
 
 ## Release Notes
 
+### 0.0.3
+
+Use simple message
+
 ### 0.0.2
 
 Merge CHANGELOG into README
