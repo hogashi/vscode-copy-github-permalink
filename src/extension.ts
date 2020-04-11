@@ -47,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       const fetchUrl = repository.state.remotes[0].fetchUrl;
       const httpsUrl = fetchUrl!.replace(
-        /^(?:(?:(?:ssh|git):\/\/|)(?:git@|)([^:\/]+)[:\/](.+?)(?:\.git|)|(?:https:\/\/|)(?:git@|)(.*?)(.)(?:\.git|))$/,
+        /^(?:(?:ssh|git|https):\/\/|)(?:git@|)([^:\/]+)[:\/](.+?)(?:\.git|)$/,
         'https://$1/$2',
       );
 
