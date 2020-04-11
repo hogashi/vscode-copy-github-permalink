@@ -31,15 +31,15 @@ Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
 
 ### 0.0.3
 
-Use simple message
+- Use simple message
 
 ### 0.0.2
 
-Merge CHANGELOG into README
+- Merge CHANGELOG into README
 
 ### 0.0.1
 
-Initial release
+- Initial release
 
 ## Licence
 
