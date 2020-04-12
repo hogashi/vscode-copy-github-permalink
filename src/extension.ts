@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import { GitExtension } from './git';
 
+import { makeHttpsUrl } from './makeHttpsUrl';
+
 const EXTENSION_NAME = 'copy-github-permalink';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -46,10 +48,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const fetchUrl = repository.state.remotes[0].fetchUrl;
-      const httpsUrl = fetchUrl!.replace(
-        /^(?:[^:]+:\/\/|)(?:git@|)([^:\/]+)[:\/](.+?)(?:\.git|)$/,
-        'https://$1/$2',
-      );
+      const httpsUrl = makeHttpsUrl(fetchUrl!);
 
       const activeTextEditor = vscode.window.activeTextEditor;
       let filePath = '';
