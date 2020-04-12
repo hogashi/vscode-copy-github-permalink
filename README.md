@@ -25,6 +25,15 @@ Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
 
 ## Release Notes
 
+### 0.0.6
+
+- Add tests for https-url maker function
+
+### 0.0.5
+
+- Fix git-remote url parsing
+- Use `blob` when file path is in utl
+
 ### 0.0.4
 
 - Fix url at repo has submodules
