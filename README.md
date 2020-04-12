@@ -25,6 +25,8 @@ Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
 
 ## Release Notes
 
+<details>
+
 ### 0.0.6
 
 - Add tests for https-url maker function
@@ -49,6 +51,8 @@ Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
 ### 0.0.1
 
 - Initial release
+
+</details>
 
 ## Licence
 
