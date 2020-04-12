@@ -73,7 +73,8 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       repository.getCommit('HEAD').then((commit) => {
-        const url = `${httpsUrl}/tree/${commit.hash}${filePath}`;
+        const treeOrBlob = filePath.length === 0 ? 'tree' : 'blob';
+        const url = `${httpsUrl}/${treeOrBlob}/${commit.hash}${filePath}`;
         vscode.env.clipboard.writeText(url);
         vscode.window.showInformationMessage(`"${url}" copied`, {
           modal: false,
