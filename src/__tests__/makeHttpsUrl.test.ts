@@ -6,8 +6,11 @@ const testcases = [
     expected: 'https://org/repo',
   },
   {
+    inputs: ['user@hostname.test:repo.git'],
+    expected: 'https://hostname.test/repo',
+  },
+  {
     inputs: [
-      'file:///org/repo.git',
       'http://user@hostname.test/org/repo.git',
       'https://hostname.test/org/repo',
       'https://user@hostname.test/org/repo.git',
@@ -17,7 +20,6 @@ const testcases = [
       'user@hostname.test:/org/repo.git',
       'user@hostname.test:org/repo',
       'user@hostname.test:org/repo.git',
-      'user@hostname.test:repo.git',
     ],
     expected: 'https://hostname.test/org/repo',
   },
