@@ -1,9 +1,16 @@
 import * as vscode from 'vscode';
-import { GitExtension } from './git';
 
+import { GitExtension } from './git';
 import { makeHttpsUrl } from './makeHttpsUrl';
 
 const EXTENSION_NAME = 'copy-github-permalink';
+
+type NormalizeGitUrl = (url: string) => {
+  url: string;
+  branch: string;
+};
+const normalizeGitUrl: NormalizeGitUrl = require('normalize-git-url');
+const normalize = (url: string): string => makeHttpsUrl(normalizeGitUrl(url).url);
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
@@ -27,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
       const submoduleUrls: { [key: string]: true } = {};
       git.repositories.forEach((repo) =>
         repo.state.submodules.forEach((subm) => {
-          submoduleUrls[subm.url] = true;
+          submoduleUrls[normalize(subm.url)] = true;
         }),
       );
 
@@ -38,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (!(remote && remote.fetchUrl)) {
           return false;
         }
-        return submoduleUrls[remote.fetchUrl] !== true;
+        return submoduleUrls[normalize(remote.fetchUrl)] !== true;
       });
       if (!repository) {
         vscode.window.showInformationMessage(
@@ -48,7 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const fetchUrl = repository.state.remotes[0].fetchUrl;
-      const httpsUrl = makeHttpsUrl(fetchUrl!);
+      const httpsUrl = normalize(fetchUrl!);
 
       const activeTextEditor = vscode.window.activeTextEditor;
       let filePath = '';
