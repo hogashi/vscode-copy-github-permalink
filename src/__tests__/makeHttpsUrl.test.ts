@@ -1,135 +1,33 @@
 import { makeHttpsUrl } from '../makeHttpsUrl';
 
-const expected = 'https://repo.example.test/hoge/fuga-foo';
+const testcases = [
+  {
+    inputs: ['file:///org/repo.git'],
+    expected: 'https://org/repo',
+  },
+  {
+    inputs: [
+      'file:///org/repo.git',
+      'http://user@hostname.test/org/repo.git',
+      'https://hostname.test/org/repo',
+      'https://user@hostname.test/org/repo.git',
+      'https://user:pass@hostname.test/org/repo.git',
+      'ssh://hostname.test:22/org/repo',
+      'ssh://user@hostname.test/org/repo',
+      'user@hostname.test:/org/repo.git',
+      'user@hostname.test:org/repo',
+      'user@hostname.test:org/repo.git',
+      'user@hostname.test:repo.git',
+    ],
+    expected: 'https://hostname.test/org/repo',
+  },
+];
 
-describe('url maker', () => {
-  describe('https', () => {
-    const scheme = 'https://';
-    const dummyRepo = 'repo.example.test:hoge/fuga-foo';
-    describe('git user', () => {
-      const user = 'git@';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-    describe('no user', () => {
-      const user = '';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-  });
-  describe('ssh', () => {
-    const scheme = 'ssh://';
-    const dummyRepo = 'repo.example.test:hoge/fuga-foo';
-    describe('git user', () => {
-      const user = 'git@';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-    describe('no user', () => {
-      const user = '';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-  });
-  describe('git', () => {
-    const scheme = 'git://';
-    const dummyRepo = 'repo.example.test:hoge/fuga-foo';
-    describe('git user', () => {
-      const user = 'git@';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-    describe('no user', () => {
-      const user = '';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-  });
-  describe('no scheme', () => {
-    const scheme = '';
-    const dummyRepo = 'repo.example.test:hoge/fuga-foo';
-    describe('git user', () => {
-      const user = 'git@';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-    describe('no user', () => {
-      const user = '';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-  });
-  describe('git ssh', () => {
-    const scheme = 'git+ssh://';
-    const dummyRepo = 'repo.example.test:hoge/fuga-foo';
-    describe('git user', () => {
-      const user = 'git@';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-    });
-    describe('no user', () => {
-      const user = '';
-      it('within .git', () => {
-        const dotgit = '.git';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
-      });
-      it('without .git', () => {
-        const dotgit = '';
-        expect(makeHttpsUrl(scheme + user + dummyRepo + dotgit)).toStrictEqual(expected);
+describe('makeHttpsUrl', () => {
+  testcases.forEach(({ inputs, expected }) => {
+    inputs.forEach(input => {
+      it(input, () => {
+        expect(makeHttpsUrl(input)).toStrictEqual(expected);
       });
     });
   });
