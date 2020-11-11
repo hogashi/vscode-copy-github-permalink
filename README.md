@@ -27,6 +27,11 @@ Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
 
 <details>
 
+### 0.0.7
+
+- Fix git-remote url parsing
+  - Use normalize-git-url
+
 ### 0.0.6
 
 - Add tests for https-url maker function
