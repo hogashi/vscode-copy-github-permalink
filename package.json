@@ -18,9 +18,17 @@
     "commands": [
       {
         "command": "copy-github-permalink.activate",
-        "title": "copy-github-permalink: Copy GitHub permalink to clipboard"
+        "title": "Copy GitHub Permalink"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "copy-github-permalink.activate",
+          "group": "9_cutcopypaste@3"
+        }
+      ]
+    }
   },
   "extensionDependencies": [
     "vscode.git"
