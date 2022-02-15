@@ -10,18 +10,18 @@ type NormalizeGitUrl = (url: string) => {
   branch: string;
 };
 const normalizeGitUrl: NormalizeGitUrl = require('normalize-git-url');
-const normalize = (url: string): string => makeHttpsUrl(normalizeGitUrl(url).url);
+const normalize = (url: string): string =>
+  makeHttpsUrl(normalizeGitUrl(url).url);
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
     `${EXTENSION_NAME}.activate`,
     () => {
-      const _gitExtension = vscode.extensions.getExtension<GitExtension>(
-        'vscode.git',
-      );
+      const _gitExtension =
+        vscode.extensions.getExtension<GitExtension>('vscode.git');
       if (!_gitExtension) {
         vscode.window.showInformationMessage(
-          `${EXTENSION_NAME} can't get git extension`,
+          `${EXTENSION_NAME} can't get git extension`
         );
         return;
       }
@@ -35,12 +35,12 @@ export function activate(context: vscode.ExtensionContext) {
       git.repositories.forEach((repo) =>
         repo.state.submodules.forEach((subm) => {
           submoduleUrls[normalize(subm.url)] = true;
-        }),
+        })
       );
 
       const repository = git.repositories.find((repo) => {
         const remote = repo.state.remotes.find(
-          (remo) => remo.name === 'origin',
+          (remo) => remo.name === 'origin'
         );
         if (!(remote && remote.fetchUrl)) {
           return false;
@@ -49,7 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
       });
       if (!repository) {
         vscode.window.showInformationMessage(
-          `${EXTENSION_NAME} can't get git repo`,
+          `${EXTENSION_NAME} can't get git repo`
         );
         return;
       }
@@ -86,7 +86,7 @@ export function activate(context: vscode.ExtensionContext) {
           modal: false,
         });
       });
-    },
+    }
   );
 
   context.subscriptions.push(disposable);
