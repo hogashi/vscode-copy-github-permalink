@@ -41,7 +41,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "test": "jest",
-    "publish": "echo 'visit https://code.visualstudio.com/api/working-with-extensions/publishing-extension'"
+    "publish-extension": "echo 'visit https://code.visualstudio.com/api/working-with-extensions/publishing-extension'"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
