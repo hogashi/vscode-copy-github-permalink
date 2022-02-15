@@ -1,6 +1,6 @@
 # vscode-copy-github-permalink
 
-Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
+Copies GitHub permalink of active file (name and line) to clipboard on VSCode. https://marketplace.visualstudio.com/items?itemName=hogashi.vscode-copy-github-permalink
 
 ## Features
 
