@@ -7,6 +7,7 @@
     "vscode": "^1.51.0"
   },
   "publisher": "hogashi",
+  "repository": "https://github.com/hogashi/vscode-copy-github-permalink/",
   "categories": [
     "Other"
   ],
