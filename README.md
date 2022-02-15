@@ -59,7 +59,3 @@ Copies GitHub permalink of active file (name and line) to clipboard on VSCode.
 - Initial release
 
 </details>
-
-## Licence
-
-MIT
