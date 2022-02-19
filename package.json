@@ -15,6 +15,7 @@
     "onCommand:copy-github-permalink.activate"
   ],
   "main": "./dist/extension-node.js",
+  "browser": "./dist/extension-web.js",
   "contributes": {
     "commands": [
       {
