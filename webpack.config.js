@@ -9,7 +9,7 @@ const nodeConfig = /** @type WebpackConfig */ {
   },
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, './out'),
+    path: path.join(__dirname, './dist'),
     libraryTarget: 'commonjs',
   },
   resolve: {
