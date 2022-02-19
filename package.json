@@ -38,7 +38,7 @@
     "vscode:prepublish": "yarn run compile",
     "compile": "webpack",
     "lint": "eslint src --ext ts",
-    "watch": "tsc -watch -p ./",
+    "watch": "webpack -w",
     "pretest": "yarn run compile && yarn run lint",
     "test": "jest",
     "publish-extension": "echo 'visit https://code.visualstudio.com/api/working-with-extensions/publishing-extension'"
