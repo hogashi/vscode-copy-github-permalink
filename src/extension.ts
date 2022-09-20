@@ -46,15 +46,11 @@ export function activate(context: vscode.ExtensionContext) {
         );
         return;
       }
-      const repository = git.repositories.find((repo) => {
-        const remote = repo.state.remotes.find(
-          (remo) => remo.name === 'origin'
-        );
-        if (!(remote && remote.fetchUrl)) {
-          return false;
-        }
-        return submoduleUrls[normalize(remote.fetchUrl)] !== true;
-      });
+
+      const absolutePath = activeTextEditor.document.fileName;
+      const repository = git.repositories.find((repo) =>
+        absolutePath.includes(repo.rootUri.path)
+      );
       if (!repository) {
         vscode.window.showInformationMessage(
           `${EXTENSION_NAME} can't get git repo`
@@ -65,7 +61,6 @@ export function activate(context: vscode.ExtensionContext) {
       const fetchUrl = repository.state.remotes[0].fetchUrl;
       const httpsUrl = normalize(fetchUrl!);
 
-      const absolutePath = activeTextEditor.document.fileName;
       const upperPath = repository.rootUri.fsPath;
       const indexOf = absolutePath.indexOf(upperPath);
       const relativePath = absolutePath.slice(indexOf + upperPath.length);
