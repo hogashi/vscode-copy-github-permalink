@@ -53,7 +53,7 @@
     "eslint": "8.23.1",
     "jest": "^27.5.1",
     "ts-jest": "27.1.5",
-    "typescript": "^4.5.5"
+    "typescript": "4.8.3"
   },
   "dependencies": {
     "normalize-git-url": "^3.0.2"
