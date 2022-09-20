@@ -2,7 +2,7 @@
   "name": "vscode-copy-github-permalink",
   "displayName": "vscode-copy-github-permalink",
   "description": "Copies GitHub permalink of active file (name and line) to clipboard on VSCode",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "engines": {
     "vscode": "^1.51.0"
   },
