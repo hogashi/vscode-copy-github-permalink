@@ -38,19 +38,15 @@ export function activate(context: vscode.ExtensionContext) {
         })
       );
 
-      const activeTextEditor = vscode.window.activeTextEditor;
-      let filePath = '';
-      if (!activeTextEditor) {
-        vscode.window.showInformationMessage(
-          `${EXTENSION_NAME} can't get active text editor`
+      const repository = git.repositories.find((repo) => {
+        const remote = repo.state.remotes.find(
+          (remo) => remo.name === 'origin'
         );
-        return;
-      }
-
-      const absolutePath = activeTextEditor.document.fileName;
-      const repository = git.repositories.find((repo) =>
-        absolutePath.includes(repo.rootUri.path)
-      );
+        if (!(remote && remote.fetchUrl)) {
+          return false;
+        }
+        return submoduleUrls[normalize(remote.fetchUrl)] !== true;
+      });
       if (!repository) {
         vscode.window.showInformationMessage(
           `${EXTENSION_NAME} can't get git repo`
@@ -61,19 +57,24 @@ export function activate(context: vscode.ExtensionContext) {
       const fetchUrl = repository.state.remotes[0].fetchUrl;
       const httpsUrl = normalize(fetchUrl!);
 
-      const upperPath = repository.rootUri.fsPath;
-      const indexOf = absolutePath.indexOf(upperPath);
-      const relativePath = absolutePath.slice(indexOf + upperPath.length);
-      filePath = relativePath;
+      const activeTextEditor = vscode.window.activeTextEditor;
+      let filePath = '';
+      if (activeTextEditor) {
+        const absolutePath = activeTextEditor.document.fileName;
+        const upperPath = repository.rootUri.fsPath;
+        const indexOf = absolutePath.indexOf(upperPath);
+        const relativePath = absolutePath.slice(indexOf + upperPath.length);
+        filePath = relativePath;
 
-      const selection = activeTextEditor.selection;
-      if (selection) {
-        const start = selection.start.line + 1;
-        const end = selection.end.line + 1;
-        filePath += `#L${start}`;
+        const selection = activeTextEditor.selection;
+        if (selection) {
+          const start = selection.start.line + 1;
+          const end = selection.end.line + 1;
+          filePath += `#L${start}`;
 
-        if (start !== end) {
-          filePath += `-L${end}`;
+          if (start !== end) {
+            filePath += `-L${end}`;
+          }
         }
       }
 
