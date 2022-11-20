@@ -1,5 +1,6 @@
 import * as path from 'node:path';
 import * as vscode from 'vscode';
+import { toUnix } from 'upath';
 
 import { GitExtension } from './git';
 import { makeHttpsUrl } from './makeHttpsUrl';
@@ -40,7 +41,6 @@ export function activate(context: vscode.ExtensionContext) {
       );
 
       const activeTextEditor = vscode.window.activeTextEditor;
-      let filePath = '';
       if (!activeTextEditor) {
         vscode.window.showInformationMessage(
           `${EXTENSION_NAME} can't get active text editor`
@@ -69,9 +69,8 @@ export function activate(context: vscode.ExtensionContext) {
       const httpsUrl = normalize(fetchUrl!);
 
       const upperPath = repository.rootUri.fsPath;
-      const indexOf = absolutePath.indexOf(upperPath);
-      const relativePath = absolutePath.slice(indexOf + upperPath.length);
-      filePath = relativePath;
+      const relativePath = path.relative(upperPath, absolutePath);
+      let filePath = toUnix(relativePath);
 
       const selection = activeTextEditor.selection;
       if (selection) {
@@ -86,7 +85,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       repository.getCommit('HEAD').then((commit) => {
         const treeOrBlob = filePath.length === 0 ? 'tree' : 'blob';
-        const url = `${httpsUrl}/${treeOrBlob}/${commit.hash}${filePath}`;
+        const url = `${httpsUrl}/${treeOrBlob}/${commit.hash}/${filePath}`;
         vscode.env.clipboard.writeText(url);
         vscode.window.showInformationMessage(`"${url}" copied`, {
           modal: false,
