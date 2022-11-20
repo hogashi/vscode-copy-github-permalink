@@ -56,6 +56,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "normalize-git-url": "^3.0.2"
+    "normalize-git-url": "^3.0.2",
+    "upath": "^2.0.1"
   }
 }
