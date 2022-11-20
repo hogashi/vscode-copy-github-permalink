@@ -1,3 +1,4 @@
+import * as path from 'path';
 import * as vscode from 'vscode';
 
 import { GitExtension } from './git';
@@ -48,9 +49,15 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const absolutePath = activeTextEditor.document.fileName;
-      const repository = git.repositories.find((repo) =>
-        absolutePath.includes(repo.rootUri.path)
+      const normalizedAbsolutePath = path.normalize(
+        absolutePath.indexOf(path.sep) === 0
+          ? absolutePath
+          : path.sep + absolutePath
       );
+      const repository = git.repositories.find((repo) => {
+        const normalizedPath = path.normalize(repo.rootUri.path);
+        return normalizedAbsolutePath.includes(normalizedPath);
+      });
       if (!repository) {
         vscode.window.showInformationMessage(
           `${EXTENSION_NAME} can't get git repo`
