@@ -1,6 +1,6 @@
 import * as path from 'node:path';
+import * as upath from 'upath';
 import * as vscode from 'vscode';
-import { toUnix } from 'upath';
 
 import { GitExtension } from './git';
 import { makeHttpsUrl } from './makeHttpsUrl';
@@ -49,15 +49,9 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const absolutePath = activeTextEditor.document.fileName;
-      const normalizedAbsolutePath = path.normalize(
-        absolutePath.indexOf(path.sep) === 0
-          ? absolutePath
-          : path.sep + absolutePath
+      const repository = git.repositories.find((repo) =>
+        absolutePath.includes(repo.rootUri.fsPath)
       );
-      const repository = git.repositories.find((repo) => {
-        const normalizedPath = path.normalize(repo.rootUri.path);
-        return normalizedAbsolutePath.includes(normalizedPath);
-      });
       if (!repository) {
         vscode.window.showInformationMessage(
           `${EXTENSION_NAME} can't get git repo`
@@ -70,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       const upperPath = repository.rootUri.fsPath;
       const relativePath = path.relative(upperPath, absolutePath);
-      let filePath = toUnix(relativePath);
+      let filePath = upath.toUnix(relativePath);
 
       const selection = activeTextEditor.selection;
       if (selection) {
