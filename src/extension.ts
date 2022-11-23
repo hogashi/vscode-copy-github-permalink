@@ -1,6 +1,6 @@
 import * as path from 'node:path';
+import * as upath from 'upath';
 import * as vscode from 'vscode';
-import { toUnix } from 'upath';
 
 import { GitExtension } from './git';
 import { makeHttpsUrl } from './makeHttpsUrl';
@@ -64,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       const upperPath = repository.rootUri.fsPath;
       const relativePath = path.relative(upperPath, absolutePath);
-      let filePath = toUnix(relativePath);
+      let filePath = upath.toUnix(relativePath);
 
       const selection = activeTextEditor.selection;
       if (selection) {
