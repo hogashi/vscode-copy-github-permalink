@@ -44,14 +44,14 @@
     "publish-extension": "echo 'visit https://code.visualstudio.com/api/working-with-extensions/publishing-extension'"
   },
   "devDependencies": {
-    "@types/jest": "29.0.3",
+    "@types/jest": "29.2.3",
     "@types/node": "18.11.9",
     "@types/vscode": "1.73.1",
     "@typescript-eslint/eslint-plugin": "5.44.0",
     "@typescript-eslint/parser": "5.44.0",
     "@vscode/test-electron": "2.1.5",
     "eslint": "8.28.0",
-    "jest": "29.0.3",
+    "jest": "29.3.1",
     "ts-jest": "29.0.1",
     "typescript": "4.9.3"
   },
