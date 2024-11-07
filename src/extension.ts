@@ -5,7 +5,7 @@ import * as vscode from 'vscode';
 import { GitExtension } from './git';
 import { makeHttpsUrl } from './makeHttpsUrl';
 
-const EXTENSION_NAME = 'copy-github-permalink';
+const EXTENSION_NAME = 'copy-gitea-permalink';
 
 type NormalizeGitUrl = (url: string) => {
   url: string;
@@ -60,7 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const remote = repository.state.remotes.find((r) => ['origin', 'upstream'].includes(r.name)) ||
-          repository.state.remotes[0]
+          repository.state.remotes[0];
       const fetchUrl = remote.fetchUrl;
       const httpsUrl = normalize(fetchUrl!);
 
@@ -81,7 +81,10 @@ export function activate(context: vscode.ExtensionContext) {
 
       repository.getCommit('HEAD').then((commit) => {
         const treeOrBlob = filePath.length === 0 ? 'tree' : 'blob';
-        const url = `${httpsUrl}/${treeOrBlob}/${commit.hash}/${filePath}`;
+        // https://github.com/ivorynoise/vscode-copy-github-permalink/blob/b606f22b0b0346575c53fbd7161e66f4c155f35a/tsconfig.json#L5 <- github
+        // https://gitea.com/deepaka/testing/src/commit/9198c49f714c99d59a2d24cb7a9fba42be635a73/code.js#L17 <- gitea
+        // const url = `${httpsUrl}/${treeOrBlob}/${commit.hash}/${filePath}`;
+        const url = `${httpsUrl}/src/commit/${commit.hash}/${filePath}`;
         vscode.env.clipboard.writeText(url);
         vscode.window.showInformationMessage(`"${url}" copied`, {
           modal: false,

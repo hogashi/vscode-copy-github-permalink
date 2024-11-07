@@ -1,31 +1,31 @@
 {
-  "name": "vscode-copy-github-permalink",
-  "displayName": "vscode-copy-github-permalink",
+  "name": "vscode-copy-gitea-permalink",
+  "displayName": "vscode-copy-gitea-permalink",
   "description": "Copies GitHub permalink of active file (name and line) to clipboard on VSCode",
   "version": "0.3.0",
   "engines": {
     "vscode": "^1.73.1"
   },
-  "publisher": "hogashi",
-  "repository": "https://github.com/hogashi/vscode-copy-github-permalink/",
+  "publisher": "ivorynoise",
+  "repository": "https://github.com/ivorynoise/vscode-copy-gitea-permalink/",
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:copy-github-permalink.activate"
+    "onCommand:copy-gitea-permalink.activate"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "copy-github-permalink.activate",
-        "title": "Copy GitHub Permalink"
+        "command": "copy-gitea-permalink.activate",
+        "title": "Copy Gitea Permalink"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "copy-github-permalink.activate",
+          "command": "copy-gitea-permalink.activate",
           "group": "9_cutcopypaste@3"
         }
       ]
