@@ -60,7 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const remote = repository.state.remotes.find((r) => ['origin', 'upstream'].includes(r.name)) ||
-          repository.state.remotes[0]
+          repository.state.remotes[0];
       const fetchUrl = remote.fetchUrl;
       const httpsUrl = normalize(fetchUrl!);
 
