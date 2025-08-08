@@ -68,6 +68,12 @@ export function activate(context: vscode.ExtensionContext) {
       const relativePath = path.relative(upperPath, absolutePath);
       let filePath = upath.toUnix(relativePath);
 
+      const fileExtension = path.extname(absolutePath).toLowerCase();
+      const fileExtensionsWithGitHubPreview = ['.md', '.rst', '.asciidoc', '.adoc'];
+      if (fileExtensionsWithGitHubPreview.includes(fileExtension)) {
+        filePath += '?plain=1';
+      }
+
       const selection = activeTextEditor.selection;
       if (selection) {
         const start = selection.start.line + 1;
