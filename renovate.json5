@@ -4,6 +4,7 @@
     'config:best-practices',
   ],
   dependencyDashboardApproval: true,
+  minimumReleaseAge: '2 weeks',
   lockFileMaintenance: {
     enabled: false,
   },
