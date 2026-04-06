@@ -4,6 +4,9 @@
     'config:best-practices',
   ],
   dependencyDashboardApproval: true,
+  lockFileMaintenance: {
+    enabled: false,
+  },
   labels: [
     'renovate',
   ],
