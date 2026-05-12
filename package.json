@@ -28,6 +28,12 @@
           "command": "copy-github-permalink.activate",
           "group": "9_cutcopypaste@3"
         }
+      ],
+      "editor/lineNumber/context": [
+        {
+          "command": "copy-github-permalink.activate",
+          "group": "copy@1"
+        }
       ]
     }
   },
