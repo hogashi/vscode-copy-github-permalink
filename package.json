@@ -56,7 +56,7 @@
     "@vscode/test-electron": "2.5.2",
     "eslint": "10.3.0",
     "jest": "30.3.0",
-    "ts-jest": "29.4.6",
+    "ts-jest": "29.4.9",
     "typescript": "6.0.3",
     "typescript-eslint": "8.59.0"
   },
